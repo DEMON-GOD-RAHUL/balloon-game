@@ -5,20 +5,19 @@ import random
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 import time
-import mediapipe as mp
 
 # Constants
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 BALLOON_COLORS = [
-    '/Users/demongod/Documents/baloon/colourballoon/Red.png',
+   '/Users/demongod/Documents/baloon/colourballoon/Red.png',
     '/Users/demongod/Documents/baloon/colourballoon/Pink.png',
     '/Users/demongod/Documents/baloon/colourballoon/Blue.png',
     '/Users/demongod/Documents/baloon/colourballoon/Green.png' 
 ]
 FONT_PATH = '/Users/demongod/Documents/baloon/Marcellus-Regular.ttf'
 SOUND_POP_PATH = '/Users/demongod/Documents/baloon/pop.mp3'
-VIDEO_PATH = '/Users/demongod/Documents/baloon/video.mp4'  # Replace with the path to your video file
+VIDEO_PATH = '/Users/demongod/Documents/baloon/video.mp4' 
 
 # Initialize
 pygame.init()
@@ -56,12 +55,11 @@ def draw_text(text, size, color, x, y):
 reset_balloon()  # Initial placement of the balloon
 
 # Variables
-speed = 5
+speed = 10
 score = 0
 level = 1
 startTime = time.time()
 totalTime = 60
-
 
 pop_sound = pygame.mixer.Sound(SOUND_POP_PATH)
 color_index = 0  # Index to keep track of the current balloon color
@@ -82,17 +80,17 @@ while True:
     if time_remaining < 0:
         window.fill((0,0,0))
 
-     # OpenCV - Display Video
+        # OpenCV - Display Video
         success_video, frame_video = video_cap.read()
-        frame_video = frame_video.resize((SCREEN_WIDTH, SCREEN_HEIGHT))
-        cv2.imshow(frame_video)
         if not success_video:
-            video_cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  # Rewind the video when it ends
+           video_cap.set(cv2.CAP_PROP_POS_FRAMES, 3)  # Rewind the video when it ends
+        #time.sleep(0.1)  # Add a small delay to allow time for the video to restart
+        success_video, frame_video = video_cap.read()
 
         frame_video = cv2.cvtColor(frame_video, cv2.COLOR_BGR2RGB)
         frame_video = np.rot90(frame_video)
         frame_video = pygame.surfarray.make_surface(frame_video).convert()
-        frame_video = pygame.transform.flip(frame_video, True, False)
+        frame_video = pygame.transform.scale(frame_video, (SCREEN_WIDTH, SCREEN_HEIGHT))
         window.blit(frame_video, (0,0))
         draw_text(f'Your Score: {score}', 50, (50, 50, 255), 450, 350)
         draw_text('Time UP', 50, (50, 50, 255), 530, 275)
